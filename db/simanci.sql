@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2020 at 03:58 AM
+-- Generation Time: Dec 12, 2020 at 11:50 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -24,18 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gedung`
---
-
-CREATE TABLE `gedung` (
-  `id_gedung` int(5) NOT NULL,
-  `nm_gedung` varchar(50) NOT NULL,
-  `keterangan` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `his_key`
 --
 
@@ -43,11 +31,18 @@ CREATE TABLE `his_key` (
   `id_hk` int(5) NOT NULL,
   `id_petugas` int(5) NOT NULL,
   `id_kunci` int(5) NOT NULL,
-  `tgl_pjm` datetime NOT NULL,
-  `tgl_kbl` datetime NOT NULL,
+  `tgl_pjm` date NOT NULL,
+  `tgl_kbl` date NOT NULL,
   `keterangan` text NOT NULL,
   `status` enum('pinjam','kembali') NOT NULL DEFAULT 'pinjam'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `his_key`
+--
+
+INSERT INTO `his_key` (`id_hk`, `id_petugas`, `id_kunci`, `tgl_pjm`, `tgl_kbl`, `keterangan`, `status`) VALUES
+(1, 2, 1, '2020-12-09', '0000-00-00', 'pinjam dulu', 'pinjam');
 
 -- --------------------------------------------------------
 
@@ -57,10 +52,17 @@ CREATE TABLE `his_key` (
 
 CREATE TABLE `kunci` (
   `id_kunci` int(5) NOT NULL,
-  `id_gedung` int(5) NOT NULL,
+  `id_ruang` int(5) NOT NULL,
   `kode` varchar(50) NOT NULL,
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kunci`
+--
+
+INSERT INTO `kunci` (`id_kunci`, `id_ruang`, `kode`, `keterangan`) VALUES
+(1, 1, 'R1G2', 'Kunci ruangan 1 pada gedung 1');
 
 -- --------------------------------------------------------
 
@@ -71,8 +73,8 @@ CREATE TABLE `kunci` (
 CREATE TABLE `petugas` (
   `id_petugas` int(5) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `status` enum('admin','staff') NOT NULL DEFAULT 'staff'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -81,18 +83,31 @@ CREATE TABLE `petugas` (
 --
 
 INSERT INTO `petugas` (`id_petugas`, `nama`, `username`, `password`, `status`) VALUES
-(1, 'admin', 'admin', 'admin', 'admin'),
-(2, 'staff', 'staff', 'staff', 'staff');
+(1, 'admin', 'admin', '$2y$10$qtV7KnOIcj9vO3wEzwsB2.EFMSTNXcYV4z.sCGHAOrt3jCcxmqj5a', 'admin'),
+(2, 'staff', 'staff', '$2y$10$2vOTLoSRVgZbFem6ZC3L1uL/D2nBdmEhuYX.1FBkuAa./vWflBwFi', 'staff');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ruang`
+--
+
+CREATE TABLE `ruang` (
+  `id_ruang` int(5) NOT NULL,
+  `nm_ruang` varchar(50) NOT NULL,
+  `keterangan` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ruang`
+--
+
+INSERT INTO `ruang` (`id_ruang`, `nm_ruang`, `keterangan`) VALUES
+(1, 'Rung 1 Gedung 1', 'Lokasi Gedung 1');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `gedung`
---
-ALTER TABLE `gedung`
-  ADD PRIMARY KEY (`id_gedung`);
 
 --
 -- Indexes for table `his_key`
@@ -113,32 +128,38 @@ ALTER TABLE `petugas`
   ADD PRIMARY KEY (`id_petugas`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Indexes for table `ruang`
 --
+ALTER TABLE `ruang`
+  ADD PRIMARY KEY (`id_ruang`);
 
 --
--- AUTO_INCREMENT for table `gedung`
+-- AUTO_INCREMENT for dumped tables
 --
-ALTER TABLE `gedung`
-  MODIFY `id_gedung` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `his_key`
 --
 ALTER TABLE `his_key`
-  MODIFY `id_hk` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_hk` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `kunci`
 --
 ALTER TABLE `kunci`
-  MODIFY `id_kunci` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kunci` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `petugas`
 --
 ALTER TABLE `petugas`
-  MODIFY `id_petugas` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_petugas` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `ruang`
+--
+ALTER TABLE `ruang`
+  MODIFY `id_ruang` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
