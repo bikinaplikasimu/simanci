@@ -7,7 +7,7 @@
 		$kode = $_POST['kode'];
 		$ket = $_POST['ket'];
 
-		$sql = "UPDATE kunci SET id_ruang = '$idr', kode = '$kode', keterangan = '$ket'  WHERE id_ruang = '$id'";
+		$sql = "UPDATE kunci SET id_ruang = '$idr', kode = '$kode', keterangan = '$ket'  WHERE id_kunci = '$id'";
 		if($conn->query($sql)){
 			$_SESSION['success'] = 'Kunci updated successfully';
 		}
