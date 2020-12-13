@@ -3,7 +3,7 @@
 
 	if(isset($_POST['kembali'])){
 		$id = $_POST['id'];
-		$sql = "UPDATE his_key set status='kembali' WHERE id_hk = '$id'";
+		$sql = "UPDATE his_key set status='kembali', tgl_kbl=now() WHERE id_hk = '$id'";
 		if($conn->query($sql)){
 			$_SESSION['success'] = 'Berhasil dikembalikan';
 		}
